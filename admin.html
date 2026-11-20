@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manage store — Lumen Store</title>
+  <meta name="description" content="Manage products, suppliers, and sales for the Lumen Store.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark" aria-hidden="true">L</span>
+        Lumen
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">Catalogue</a>
+        <a href="admin.html" aria-current="page">Manage</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero hero--compact container" aria-labelledby="page-title">
+      <span class="hero__eyebrow">Store admin</span>
+      <h1 id="page-title">Manage the store.</h1>
+      <p>
+        Every change here is sent straight to the backend API and stored in
+        MySQL. Start the server with <strong>npm start</strong> first.
+      </p>
+    </section>
+
+    <section class="container" aria-labelledby="tools-heading">
+      <h2 class="sr-only" id="tools-heading">Store tools</h2>
+
+      <p id="form-message" role="status" hidden></p>
+
+      <div class="admin-grid">
+        <div class="card">
+          <h2>Add a product</h2>
+          <p class="muted">Name, price, and stock are required.</p>
+
+          <form class="form" id="add-product-form" novalidate>
+            <div class="field">
+              <label for="product-name">Name <span aria-hidden="true">*</span></label>
+              <input class="input" id="product-name" name="ProductName" type="text"
+                     autocomplete="off" required>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="product-price">Price <span aria-hidden="true">*</span></label>
+                <input class="input" id="product-price" name="Price" type="number"
+                       inputmode="decimal" min="0" step="0.01" required>
+              </div>
+              <div class="field">
+                <label for="product-stock">Stock <span aria-hidden="true">*</span></label>
+                <input class="input" id="product-stock" name="StockQuantity" type="number"
+                       inputmode="numeric" min="0" step="1" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="product-category">Category</label>
+                <input class="input" id="product-category" name="Category" type="text"
+                       autocomplete="off">
+              </div>
+              <div class="field">
+                <label for="product-supplier">Supplier</label>
+                <select class="select" id="product-supplier" name="SupplierID">
+                  <option value="">No supplier</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="product-image">Image URL</label>
+              <input class="input" id="product-image" name="ImageURL" type="text"
+                     autocomplete="off" placeholder="images/my-product.webp"
+                     aria-describedby="image-hint">
+              <span class="hint" id="image-hint">
+                Optional. Put the file in the images/ folder, e.g. images/coffee.webp.
+              </span>
+            </div>
+
+            <button class="btn btn--primary" type="submit" id="add-product-submit">Add product</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Add a supplier</h2>
+          <p class="muted">The supplier name is required.</p>
+
+          <form class="form" id="add-supplier-form" novalidate>
+            <div class="field">
+              <label for="supplier-name">Name <span aria-hidden="true">*</span></label>
+              <input class="input" id="supplier-name" name="SupplierName" type="text"
+                     autocomplete="off" required>
+            </div>
+
+            <div class="field">
+              <label for="supplier-contact">Contact number</label>
+              <input class="input" id="supplier-contact" name="ContactNumber" type="text"
+                     autocomplete="off" maxlength="15" aria-describedby="contact-hint">
+              <span class="hint" id="contact-hint">Up to 15 characters.</span>
+            </div>
+
+            <button class="btn btn--primary" type="submit" id="add-supplier-submit">Add supplier</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Connection</h2>
+          <p class="muted" id="api-status">Checking the API…</p>
+          <button class="btn btn--ghost" type="button" id="api-retry">Refresh data</button>
+        </div>
+      </div>
+
+      <section aria-labelledby="all-products-heading" style="margin-top: 2rem;">
+        <div class="section-head">
+          <h2 id="all-products-heading">All products</h2>
+          <span class="muted" id="product-count">0 products</span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table">
+            <caption class="sr-only">All products in the store</caption>
+            <thead>
+              <tr>
+                <th scope="col">Photo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Supplier</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="product-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="all-suppliers-heading" style="margin-top: 2rem;">
+        <div class="section-head">
+          <h2 id="all-suppliers-heading">All suppliers</h2>
+          <span class="muted" id="supplier-count">0 suppliers</span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table">
+            <caption class="sr-only">All suppliers of the store</caption>
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="supplier-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="recent-sales-heading" style="margin-top: 2rem;">
+        <div class="section-head">
+          <h2 id="recent-sales-heading">Sales</h2>
+          <span class="muted" id="sale-count">0 sales</span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table">
+            <caption class="sr-only">All recorded sales</caption>
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Date</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody id="sale-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span>© 2026 Lumen Store</span>
+      <span>Data lives in MySQL, served by the API</span>
+    </div>
+  </footer>
+
+  <script src="api.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

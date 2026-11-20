@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen Store — Catalogue</title>
+  <meta name="description" content="The Lumen Store catalogue: browse products, add them to your cart, and check out.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark" aria-hidden="true">L</span>
+        Lumen
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html" aria-current="page">Catalogue</a>
+        <button class="cart-button" id="cart-button" type="button" aria-label="Open cart">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-button__label">Cart</span>
+          <span class="cart-button__count" id="cart-count" hidden>0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero container" aria-labelledby="page-title">
+      <span class="hero__eyebrow" id="product-count" aria-live="polite">Loading the shelves…</span>
+      <h1 id="page-title">Everyday goods, thoughtfully stocked.</h1>
+      <p>
+        Browse the catalogue, add what you need to the cart, and check out in
+        one step. Everything you see is live from the store's inventory.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#catalogue">Browse products</a>
+      </div>
+
+      <form class="searchbar" id="search-form" role="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.5-3.5"></path>
+        </svg>
+        <label class="sr-only" for="search">Search the catalogue</label>
+        <input id="search" name="q" type="search"
+               placeholder="Search by name, category, or supplier…"
+               autocomplete="off" spellcheck="false">
+      </form>
+    </section>
+
+    <section class="container" id="catalogue" aria-labelledby="catalogue-heading">
+      <div class="section-head">
+        <h2 id="catalogue-heading">All products</h2>
+        <span class="muted" id="result-count" aria-live="polite">Loading…</span>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar__chips" id="category-chips" role="group" aria-label="Filter by category"></div>
+        <button class="btn btn--sm btn--ghost" id="clear-filters" type="button" hidden>
+          Clear filters
+        </button>
+      </div>
+
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span>© 2026 Lumen Store</span>
+      <span>Inventory served live by the store API</span>
+    </div>
+  </footer>
+
+  <!-- Native <dialog>: the browser handles Esc and keyboard focus for us. -->
+  <dialog class="product-dialog" id="product-dialog" aria-labelledby="dialog-title">
+    <div class="modal__panel">
+      <div class="modal__head">
+        <h2 class="modal__title" id="dialog-title">Product details</h2>
+        <button class="modal__close" type="button" id="dialog-close" aria-label="Close product details">×</button>
+      </div>
+      <div class="modal__body" id="dialog-body"></div>
+    </div>
+  </dialog>
+
+  <dialog class="product-dialog product-dialog--cart" id="cart-dialog" aria-labelledby="cart-title">
+    <div class="modal__panel modal__panel--cart">
+      <div class="modal__head">
+        <h2 class="modal__title" id="cart-title">Your cart</h2>
+        <button class="modal__close" type="button" id="cart-close" aria-label="Close cart">×</button>
+      </div>
+      <div class="modal__body" id="cart-body"></div>
+    </div>
+  </dialog>
+
+  <script src="api.js"></script>
+  <script src="cart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
