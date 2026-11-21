@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lumen Store — Catalogue</title>
   <meta name="description" content="The Lumen Store catalogue: browse products, add them to your cart, and check out.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,6 +13,8 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="announce">Free delivery on orders over EGP 500</div>
 
   <header class="site-header">
     <div class="container site-header__inner">
@@ -37,11 +40,9 @@
 
   <main id="main">
     <section class="hero container" aria-labelledby="page-title">
-      <span class="hero__eyebrow" id="product-count" aria-live="polite">Loading the shelves…</span>
-      <h1 id="page-title">Everyday goods, thoughtfully stocked.</h1>
+      <h1 id="page-title">Everything you need, nothing you don't.</h1>
       <p>
-        Browse the catalogue, add what you need to the cart, and check out in
-        one step. Everything you see is live from the store's inventory.
+        A short, carefully stocked catalogue — updated live from our inventory.
       </p>
 
       <div class="hero__actions">
@@ -49,15 +50,17 @@
       </div>
 
       <form class="searchbar" id="search-form" role="search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
-          <circle cx="11" cy="11" r="7"></circle>
-          <path d="m20 20-3.5-3.5"></path>
-        </svg>
         <label class="sr-only" for="search">Search the catalogue</label>
         <input id="search" name="q" type="search"
                placeholder="Search by name, category, or supplier…"
                autocomplete="off" spellcheck="false">
+        <button class="searchbar__btn" type="submit" aria-label="Search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+        </button>
       </form>
     </section>
 
@@ -81,7 +84,7 @@
   <footer class="site-footer">
     <div class="container site-footer__inner">
       <span>© 2026 Lumen Store</span>
-      <span>Inventory served live by the store API</span>
+      <span>A small independent shop — every order packed by hand.</span>
     </div>
   </footer>
 

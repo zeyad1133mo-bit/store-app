@@ -98,7 +98,14 @@ p { color: var(--ink-soft); text-wrap: pretty; }
 }
 .skip-link:focus { top: 1rem; text-decoration: none; }
 
-/* ---------- 3. Header / navbar ---------- */
+/* ---------- 3. Announcement bar + header / navbar ---------- */
+.announce {
+  background: var(--ink); color: #f5f3ef;
+  text-align: center;
+  font-size: .78rem; font-weight: 500; letter-spacing: .02em;
+  padding: .45rem 1rem;
+}
+
 .site-header {
   position: sticky; top: 0; z-index: 50;
   background: var(--surface);
@@ -181,6 +188,13 @@ p { color: var(--ink-soft); text-wrap: pretty; }
 }
 .searchbar input:focus { outline: none; }
 .searchbar input::placeholder { color: var(--ink-faint); }
+.searchbar__btn {
+  display: grid; place-items: center;
+  padding: .45rem; border: 0; border-radius: var(--radius-sm);
+  background: transparent; color: var(--ink-soft); cursor: pointer;
+  transition: background .18s var(--ease), color .18s var(--ease);
+}
+.searchbar__btn:hover { background: var(--bg); color: var(--ink); }
 
 /* ---------- 5. Section headings + toolbar ---------- */
 .section-head {
@@ -297,15 +311,6 @@ p { color: var(--ink-soft); text-wrap: pretty; }
 }
 .product-card__cover--photo .cover-name { text-shadow: 0 1px 6px rgba(0, 0, 0, .4); }
 .product-card__cover--photo .cover-cat { text-shadow: 0 1px 4px rgba(0, 0, 0, .4); }
-
-/* price tag on the cover */
-.badge--price {
-  position: absolute; top: .7rem; left: .7rem; z-index: 2;
-  padding: .26rem .6rem; border-radius: 999px;
-  background: rgba(255, 255, 255, .94); color: var(--ink);
-  font-size: .76rem; font-weight: 700; letter-spacing: 0;
-  text-transform: none; backdrop-filter: none;
-}
 
 .product-card__body {
   display: flex; flex-direction: column; gap: .15rem;

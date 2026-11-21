@@ -58,7 +58,11 @@ function hideMessage() {
 }
 
 function formatPrice(value) {
-  return `EGP ${Number(value).toFixed(2)}`;
+  const num = Number(value);
+  const text = num % 1 === 0
+    ? num.toLocaleString('en-US')
+    : num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `EGP ${text}`;
 }
 
 function formatDate(value) {

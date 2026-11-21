@@ -16,7 +16,6 @@ const searchInput = document.getElementById('search');
 const chipsWrap = document.getElementById('category-chips');
 const clearButton = document.getElementById('clear-filters');
 const countEl = document.getElementById('result-count');
-const shelfEl = document.getElementById('product-count');
 
 const cartButton = document.getElementById('cart-button');
 const cartCountEl = document.getElementById('cart-count');
@@ -50,7 +49,11 @@ function plural(count, singular, pluralForm) {
 }
 
 function formatPrice(value) {
-  return `EGP ${Number(value).toFixed(2)}`;
+  const num = Number(value);
+  const text = num % 1 === 0
+    ? num.toLocaleString('en-US')
+    : num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `EGP ${text}`;
 }
 
 function findProduct(productId) {
@@ -229,7 +232,6 @@ function renderProducts() {
   const list = filteredProducts();
   const hasFilters = Boolean(query.trim()) || selectedCategory !== 'all';
 
-  shelfEl.textContent = `${products.length} ${plural(products.length, 'product', 'products')} in stock`;
   countEl.textContent = hasFilters
     ? `${list.length} of ${products.length} ${plural(products.length, 'product', 'products')}`
     : `${products.length} ${plural(products.length, 'product', 'products')}`;
@@ -490,9 +492,9 @@ async function checkout() {
 
     const done = make('div', 'empty cart-success');
     done.append(
-      make('h3', null, 'Order placed'),
+      make('h3', null, 'Order placed — thank you'),
       make('p', null,
-        `${result.Lines.length} ${plural(result.Lines.length, 'item', 'items')} — total ${formatPrice(result.OrderTotal)}. Stock has been updated on the server.`),
+        `${result.Lines.length} ${plural(result.Lines.length, 'item', 'items')} · total ${formatPrice(result.OrderTotal)}. We will get it ready to ship.`),
     );
 
     const keepShopping = make('button', 'btn btn--primary', 'Keep shopping');
@@ -552,10 +554,8 @@ async function start({ keepDialog = false } = {}) {
         () => start()
       )
     );
-    shelfEl.textContent = 'Offline';
     countEl.textContent = 'Offline';
-    return false;
-  }
+    return false;  }
 
   renderChips();
   renderProducts();
